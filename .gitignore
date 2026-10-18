@@ -1,5 +1,10 @@
 AIChatProxy/.env
+AIChatProxy/proxy.out
 *.log
 *.chat
 __pycache__/
 *.pyc
+*.dcu
+*.~*
+*.dsk
+*.map
