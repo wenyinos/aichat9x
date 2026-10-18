@@ -8,7 +8,7 @@ uses
 
 begin
   Application.Initialize;
-  Application.Title := 'AI Chat';
+  Application.Title := 'AI ÁÄÌìÖúÊÖ';
   Application.CreateForm(TfrmAIChat, frmAIChat);
   Application.Run;
 end.

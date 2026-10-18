@@ -3,9 +3,9 @@ unit AIChatHttp;
 interface
 
 { Send JSON body to proxy; returns UTF-8 JSON response.
-  ABody must be UTF-8 encoded JSON. }
+  ABody must be UTF-8 encoded JSON. AToken may be empty. }
 function HttpPost(const AHost: string; APort: Word;
-  const APath, ABody: string; JsonMode: Boolean): string;
+  const APath, AToken, ABody: string; JsonMode: Boolean): string;
 
 { Simple GET request for /ping health check. Returns body or '' on error. }
 function HttpGet(const AHost: string; APort: Word;
@@ -30,7 +30,7 @@ begin
 end;
 
 function HttpPost(const AHost: string; APort: Word;
-  const APath, ABody: string; JsonMode: Boolean): string;
+  const APath, AToken, ABody: string; JsonMode: Boolean): string;
 var
   hSes, hCon, hReq: HINTERNET;
   hdr: string;
@@ -47,7 +47,7 @@ begin
       nil, nil, INTERNET_SERVICE_HTTP, 0, 0);
     if hCon = nil then
     begin
-      Result := 'ERROR: cannot connect to proxy';
+      Result := '错误: 无法连接代理';
       Exit;
     end;
     try
@@ -65,16 +65,18 @@ begin
           hdr := 'Content-Type: application/json; charset=utf-8' + #13#10
                + 'Content-Length: ' + IntToStr(Length(BodyBytes)) + #13#10
         else
-          hdr := 'Content-Type: text/plain' + #13#10
+          hdr := 'Content-Type: text/plain; charset=gbk' + #13#10
                + 'Content-Length: ' + IntToStr(Length(BodyBytes)) + #13#10;
+        if AToken <> '' then
+          hdr := hdr + 'X-AIChat-Token: ' + AToken + #13#10;
         if not HttpSendRequest(hReq, PChar(hdr), Length(hdr),
           PAnsiChar(BodyBytes), Length(BodyBytes)) then
         begin
           Code := GetLastError;
           if Code = ERROR_INTERNET_TIMEOUT then
-            Result := 'ERROR: connection timed out'
+            Result := '错误: 连接超时'
           else
-            Result := 'ERROR: send failed (code ' + IntToStr(Code) + ')';
+            Result := '错误: 发送失败（代码 ' + IntToStr(Code) + '）';
           Exit;
         end;
         repeat
@@ -95,11 +97,11 @@ begin
     begin
       Code := GetLastError;
       if Code = ERROR_INTERNET_TIMEOUT then
-        Result := 'ERROR: request timed out'
+        Result := '错误: 请求超时'
       else if Code = ERROR_INTERNET_CANNOT_CONNECT then
-        Result := 'ERROR: connection refused'
+        Result := '错误: 连接被拒绝'
       else
-        Result := 'ERROR: ' + E.Message + ' (code ' + IntToStr(Code) + ')';
+        Result := '错误: ' + E.Message + '（代码 ' + IntToStr(Code) + '）';
     end;
   end;
   InternetCloseHandle(hSes);

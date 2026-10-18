@@ -1,139 +1,107 @@
 object frmAIChat: TfrmAIChat
   Left = 200
   Top = 100
-  Width = 640
-  Height = 520
-  Caption = 'AI Chat Assistant'
+  Width = 760
+  Height = 600
+  Caption = 'AI 聊天助手'
   Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
+  Font.Charset = 134
   Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'MS Sans Serif'
+  Font.Height = -12
+  Font.Name = '宋体'
   Font.Style = []
-  Menu = MainMenu
+  BorderStyle = bsNone
+  KeyPreview = True
   OldCreateOrder = False
   Position = poScreenCenter
   OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
+  OnResize = FormResize
   PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 16
+  Constraints.MinHeight = 600
+  Constraints.MinWidth = 760
   object pnlHeader: TPanel
     Left = 0
     Top = 0
-    Width = 624
-    Height = 48
+    Width = 760
+    Height = 72
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 0
   end
-  object pnlToolbar: TPanel
+  object pnlStatus: TPanel
     Left = 0
-    Top = 48
-    Width = 624
-    Height = 30
-    Align = alTop
+    Top = 576
+    Width = 760
+    Height = 24
+    Align = alBottom
     BevelOuter = bvNone
     TabOrder = 1
-  end
-  object StatusBar: TStatusBar
-    Left = 0
-    Top = 468
-    Width = 624
-    Height = 19
-    Panels = <
-      item
-        Text = 'Ready'
-        Width = 200
-      end
-      item
-        Text = 'Messages: 0'
-        Width = 150
-      end>
+    object lblStatus: TLabel
+      Left = 12
+      Top = 4
+      Width = 30
+      Height = 16
+      Caption = '就绪'
+    end
+    object lblCount: TLabel
+      Left = 220
+      Top = 4
+      Width = 80
+      Height = 16
+      Caption = '消息数: 0'
+    end
+    object lblHint: TLabel
+      Left = 420
+      Top = 4
+      Width = 100
+      Height = 16
+      Caption = '右键复制消息'
+    end
   end
   object pnlInput: TPanel
     Left = 0
-    Top = 408
-    Width = 624
-    Height = 60
+    Top = 484
+    Width = 760
+    Height = 92
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 2
-    object BevelTop: TBevel
+    object DividerTop: TPanel
       Left = 0
       Top = 0
-      Width = 624
-      Height = 3
+      Width = 760
+      Height = 1
       Align = alTop
-      Shape = bsTopLine
+      BevelOuter = bvNone
+      TabOrder = 0
     end
     object lblInput: TLabel
-      Left = 8
-      Top = 6
-      Width = 80
-      Height = 13
-      Caption = 'Your message:'
+      Left = 16
+      Top = 10
+      Width = 220
+      Height = 16
+      Caption = 'Enter 发送 · Shift+Enter 换行'
     end
     object memInput: TMemo
-      Left = 8
-      Top = 22
-      Width = 529
-      Height = 32
-      TabOrder = 0
-      OnKeyDown = memInputKeyDown
-    end
-    object btnSend: TButton
-      Left = 544
-      Top = 22
-      Width = 75
-      Height = 32
-      Caption = 'Send'
+      Left = 16
+      Top = 34
+      Width = 624
+      Height = 44
+      Anchors = [akTop, akLeft, akRight]
+      BorderStyle = bsNone
       TabOrder = 1
-      OnClick = btnSendClick
+      OnKeyDown = memInputKeyDown
     end
   end
   object pnlChatHost: TPanel
     Left = 0
-    Top = 78
-    Width = 624
-    Height = 330
+    Top = 72
+    Width = 760
+    Height = 412
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 3
-  end
-  object MainMenu: TMainMenu
-    Left = 300
-    Top = 200
-    object File1: TMenuItem
-      Caption = '&File'
-      object ClearChat1: TMenuItem
-        Caption = '&Clear Chat'
-        OnClick = Clear1Click
-      end
-      object TestConn1: TMenuItem
-        Caption = '&Test Connection'
-        OnClick = TestConn1Click
-      end
-      object LoadChat1: TMenuItem
-        Caption = '&Load Chat'
-        OnClick = LoadChat1Click
-      end
-      object SaveChat1: TMenuItem
-        Caption = '&Save Chat'
-        OnClick = SaveChat1Click
-      end
-      object N1: TMenuItem
-        Caption = '-'
-      end
-      object Exit1: TMenuItem
-        Caption = 'E&xit'
-        OnClick = Exit1Click
-      end
-    end
-    object Help1: TMenuItem
-      Caption = '&Help'
-      object About1: TMenuItem
-        Caption = '&About...'
-        OnClick = About1Click
-      end
-    end
   end
 end
